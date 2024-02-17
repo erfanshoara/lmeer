@@ -17,20 +17,40 @@
 #include <pthread.h>
 #include <errno.h>
 #include <stdint.h>
-//#include <stdbool.h>
-//#include <stddef.h>
-//#include <sys/types.h>
+#include <string.h>
 // }
 
 
 // def
 // {
-// size of each ESC block
-#define __LMEER_SIZE_ECSBLK__	100
-// the highest len for the ECSP - for memory safety
-#define __LMEER_XLEN_ECS__		100 * __LMEER_SIZE_ECSBLK__
 // lmeer version as int
 #define __LMEER_NUMR_VERSION__	1
+
+// size of each ESC block
+#define __LMEER_SIZE_ECSBLK__	100
+
+// the highest len for the ECSP - for memory safety
+#define __LMEER_XLEN_ECS__		100 * __LMEER_SIZE_ECSBLK__
+
+// string format for ERCD
+#define __LMEER_ECSTR_FRM__		"%ld"
+
+// max len of ercd as string
+#define __LMEER_ECSTR_XLEN__	10
+
+
+// chars used in printing the error trace
+// format will be:
+// "{INI}({SEP}{ERR})*{SEP}{END}" : all error coded fitted
+// "{INI}({SEP}{ERR})*{SEP}{EXT}" : some error code are mising
+// {ERR} is a single error code
+// {
+#define __LMEER_TRC_INI__		'S'
+#define __LMEER_TRC_SEP__		'>'
+#define __LMEER_TRC_END__		'E'
+#define __LMEER_TRC_EXT__		'X'
+// }
+
 // }
 
 
@@ -70,8 +90,38 @@ typedef struct
 
 // var
 // {
+// thread-safe global variable used in LMEER
+// this is the main var being used in all methods that stores everything
 extern __thread lmeer_ecsp_t LMEER_ECSP_MAIN;
 
+/*
+ * this is a list of error messages for the internal errors
+ * [ 0]: "No Internal Error."
+ * [ 1]: "Failed to allocate memory for ECSP (errno in ercd_last)."
+ * [ 2]: "Attempted to add before initialization."
+ * [ 3]: "Number of errors exceeded the limit."
+ * [ 4]: "Failed to reallocate memory for ECSP (errno in ercd_last)."
+ * [ 5]: "Failed to allocating memory for the info string "
+ * 			"(errno in ercd_last)."
+ *
+ * [ 6]: "Something went wrong while printing the info string."
+ * [ 7]: "Called the alloc_print trace function before initializing lmeer."
+ * [ 8]: "Failed to allocating memory for the trace string "
+ * 			"(errno in ercd_last)."
+ *
+ * [ 9]: "Unexpected failure - "
+ * 			"ran out of spacing while printing the trace string."
+ *
+ * [10]: "Failed to reallocate memory for trace string (errno in ercd_last)."
+ * [11]: "Unexpected failure - "
+ * 			"ran out of spacing while printing the trace string."
+ *
+ * [12]: "Called the print trace function before initializing lmeer."
+ * [13]: "Internal - Failed to allocate memory for trace string."
+ * [14]: "Attempted to pop before initialization."
+ * [15]: "Internal - after init but count is zero."
+ * [16]: "Internal - Invalid Internal Error."
+ */
 extern const char*	__LMEER_LST_INTR[];
 extern const size_t	__LMEER_LEN_INTR;
 // }
@@ -79,11 +129,9 @@ extern const size_t	__LMEER_LEN_INTR;
 
 // func
 // {
+
 /*
- * func: lmeer_init_ecsp
- *
  * in:
- * 	>
  * 	>
  *
  * out: -
@@ -123,7 +171,9 @@ alloc_lmeer_print_info(
 		);
 
 void
-lmeer_print_info(FILE* in_stream);
+lmeer_print_info(
+		FILE* in_stream
+		);
 
 void
 alloc_lmeer_print_trace(
@@ -132,7 +182,23 @@ alloc_lmeer_print_trace(
 		);
 
 void
-lmeer_print_trace(FILE* in_stream);
+lmeer_print_trace(
+		FILE* in_stream
+		);
+
+void
+alloc_lmeer_print_interr(
+		char**	ot_strP_interr,
+		size_t*	ot_lenP_interr
+		);
+
+void
+lmeer_print_interr(
+		FILE* in_stream
+		);
+
+const char*
+lmeer_interr2str();
 
 lmeer_ercd_t
 lmeer_pop_ercd();
@@ -140,21 +206,6 @@ lmeer_pop_ercd();
 void
 lmeer_term_ecsp();
 
-void
-print_ecsp_mesg(
-		char**	in_lst_mesg,
-		char**	in_len_lstmsg,
-		int**	in_map_imsg
-		);
-
-void
-alloc_ecsp_mesg(
-		char**	ot_strP_mesg,
-		size_t*	ot_len_strP,
-		char**	in_lst_mesg,
-		size_t*	in_len_lstmsg,
-		int**	in_map_imsg
-		);
 // }
 
 
