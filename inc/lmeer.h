@@ -33,7 +33,7 @@
 #define __LMEER_XLEN_ECS__		100 * __LMEER_SIZE_ECSBLK__
 
 // string format for ERCD
-#define __LMEER_ECSTR_FRM__		"%ld"
+#define __LMEER_ECSTR_FRM__		"%d"
 
 // max len of ercd as string
 #define __LMEER_ECSTR_XLEN__	10

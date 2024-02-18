@@ -116,8 +116,6 @@ lmeer_add_ercd(
 
 	// var
 	// {
-	int _i = 0;
-
 	size_t	len_trace_new		= 0;
 	lmeer_ercd_t*	_ercdP		= NULL;
 	// }
@@ -216,7 +214,7 @@ alloc_lmeer_print_info(
 		"VERSION:   <%d>\n"
 		"\n"
 		"LMEER ECSP Info:\n"
-		"Stack Pointer:  <%018p>\n"
+		"Stack Pointer:  <%18p>\n"
 		"Stack Length:   <%#zx>\n"
 		"Error Count:    <%#zx>\n"
 		"First Error:    <"__LMEER_ECSTR_FRM__">\n"
@@ -276,7 +274,7 @@ alloc_lmeer_print_info(
 
 	if (
 			(_ret < 1)						||
-			((xlen_info_format - 1) < _ret)
+			((xlen_info_format - 1) < (size_t)_ret)
 			)
 	{
 		// error - the return size does not make sense
@@ -331,8 +329,8 @@ alloc_lmeer_print_trace(
 		return;
 	}
 
-	int		_i_err			= 0;
-	int		_i_str			= 0;
+	size_t	_i_err			= 0;
+	size_t	_i_str			= 0;
 	int		_added_string	= 0;
 	char*	str_trace		= NULL;
 	char*	_str_trace		= NULL;
@@ -527,7 +525,7 @@ lmeer_print_trace(
 const char*
 lmeer_interr2str()
 {
-	if (LMEER_ECSP_MAIN.ercd_intr < __LMEER_LEN_INTR)
+	if ((size_t)LMEER_ECSP_MAIN.ercd_intr < __LMEER_LEN_INTR)
 	{
 		return __LMEER_LST_INTR[LMEER_ECSP_MAIN.ercd_intr];
 	}
@@ -561,6 +559,7 @@ alloc_lmeer_print_interr(
 		  );
 
 	*ot_strP_interr[len_str-1] = '\0';
+	*ot_lenP_interr = len_str;
 
 	return;
 }
