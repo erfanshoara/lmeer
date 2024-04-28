@@ -214,7 +214,7 @@ alloc_lmeer_print_info(
 		"VERSION:   <%d>\n"
 		"\n"
 		"LMEER ECSP Info:\n"
-		"Stack Pointer:  <%18p>\n"
+		"Stack Pointer:  <0x%016lx>\n"
 		"Stack Length:   <%#zx>\n"
 		"Error Count:    <%#zx>\n"
 		"First Error:    <"__LMEER_ECSTR_FRM__">\n"
@@ -263,7 +263,7 @@ alloc_lmeer_print_info(
 			str_info_format,
 
 			__LMEER_NUMR_VERSION__,
-			LMEER_ECSP_MAIN.stackP,
+			(uint64_t)LMEER_ECSP_MAIN.stackP,
 			LMEER_ECSP_MAIN.len,
 			LMEER_ECSP_MAIN.count,
 			LMEER_ECSP_MAIN.ercd_init,
