@@ -24,7 +24,8 @@
 // def
 // {
 // lmeer version as int
-#define __LMEER_NUMR_VERSION__	1
+#define __LMEER_NUMR_MVERSION__	1
+#define __LMEER_NUMR_SVERSION__	0
 
 // size of each ESC block
 #define __LMEER_SIZE_ECSBLK__	100

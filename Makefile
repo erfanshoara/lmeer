@@ -7,9 +7,9 @@
 # 	static and dynamic libraries under $(DIR_OUT_LIB). It also install the
 # 	libraries - coping them to the specified location, there are two modes of
 # 	installation (dynamic library, static library) which can be selected using
-# 	$(OUT_MOD). uninstall will remove the system-wide files copied using the
-# 	install target, and clear will only remove the local object files created
-# 	from 'all' target.
+# 	$(OUT_MOD) in config file (config.mk). uninstall will remove the
+# 	system-wide files copied using the install target, and clear will only
+# 	remove the local object files created from 'all' target.
 #
 # Author:	Erfan Shoara (erfan@shoara.net)
 # Date:		Feb 17, 2024
@@ -20,14 +20,10 @@
 # 	> clean:		removes local obj/lib files
 # 	> uninstall:	removes the lib and headers from $(DIR_DST*)
 #
-# Config - Variables:
+# Variables:
 # 	> OUT_NAM := lmeer
 # 		the name of the library used for creating the header file and
 # 		libraries.
-#
-# 	> OUT_MOD := DYN
-# 		if set to STA, it will install the static library, otherwise (anything
-# 		else) will install the dynamic library.
 #
 # 	> DIR_DST_INC := /usr/include
 # 		the directory where the header file should be copied to.
@@ -42,14 +38,23 @@
 # 		the program used for archiving static objects into the static library.
 #
 # 	> ARC_FLG := rcs
-# 		the optoins passed to the archiv program set by $(ARV)
+# 		the options passed to the archive program set by $(ARV)
 #
 # 	> CC := gcc
 # 		the c compiler program. NOTE, all variables starting with $(FLG_*) are
 # 		the options passed to $(CC) respective to the mode of
 # 		compilation/linking.
+#
+# Config File:	config.mk
 #                                                                             #
 ###############################################################################
+
+
+# include
+# {
+include config.mk
+# }
+
 
 # var
 # {
@@ -60,7 +65,6 @@
 DIR_SRC := src
 # .h files
 DIR_INC := inc
-DIR_OUT := out
 
 # .o files
 DIR_OUT_OBJ := $(DIR_OUT)/obj
@@ -71,7 +75,6 @@ DIR_OUT_OBJ_DYN := $(DIR_OUT_OBJ)/dyn
 
 
 OUT_NAM := lmeer
-OUT_MOD := DYN
 INC_OUT:= $(OUT_NAM).h
 LIB_OUT_STA := lib$(OUT_NAM).a
 LIB_OUT_DYN := lib$(OUT_NAM).so
@@ -80,9 +83,6 @@ LST_SRC := $(wildcard $(DIR_SRC)/*.c)
 LST_OBJ_STA := $(patsubst $(DIR_SRC)/%.c,$(DIR_OUT_OBJ_STA)/%.o,$(LST_SRC))
 LST_OBJ_DYN := $(patsubst $(DIR_SRC)/%.c,$(DIR_OUT_OBJ_DYN)/%.o,$(LST_SRC))
 
-DIR_DST_INC := /usr/include
-DIR_DST_LIB_STA := /usr/lib
-DIR_DST_LIB_DYN := /usr/lib
 # }
 
 # archiver, compiler and flags

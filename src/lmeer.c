@@ -211,7 +211,7 @@ alloc_lmeer_print_info(
 
 	const char		str_info_format[] =
 		"LMEER Lib Info:\n"
-		"VERSION:   <%d>\n"
+		"VERSION:   <%d.%d>\n"
 		"\n"
 		"LMEER ECSP Info:\n"
 		"Stack Pointer:  <0x%016lx>\n"
@@ -230,7 +230,7 @@ alloc_lmeer_print_info(
 	 * deducted and they will act as a safeguard for the string - no need to
 	 * walk on the edge, so we don't. Followings are showing what each addition
 	 * is for:
-	 * > 0x0A					* 1	: int			: the version number
+	 * > 0x0A					* 2	: int			: version numbers, main/sub
 	 * > 0x10					* 1	: void*			: 64-bit virtual address
 	 * > 0x08					* 2	: size_t		: length and count of ECSP
 	 * > __LMEER_ECSTR_XLEN__	* 4	: lmeer_ercd_t	: lmeer.h defined ERCD
@@ -238,7 +238,7 @@ alloc_lmeer_print_info(
 	 */
 	const size_t xlen_info_format =
 		sizeof(str_info_format)	+
-		0x0A					* 1	+
+		0x0A					* 2	+
 		0x10					* 1	+
 		0x08					* 2	+
 		__LMEER_ECSTR_XLEN__	* 4	+
@@ -262,7 +262,8 @@ alloc_lmeer_print_info(
 			xlen_info_format,
 			str_info_format,
 
-			__LMEER_NUMR_VERSION__,
+			__LMEER_NUMR_MVERSION__,
+			__LMEER_NUMR_SVERSION__,
 			(uint64_t)LMEER_ECSP_MAIN.stackP,
 			LMEER_ECSP_MAIN.len,
 			LMEER_ECSP_MAIN.count,
