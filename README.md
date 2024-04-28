@@ -3,11 +3,11 @@
 
 ## Table of Contents
 - [Info](#info)
- - [Integration](#integration)
- - [Implementation](#implementation)
 - [Description](#description)
 - [Config](#config)
 - [Usage](#usage)
+    - [Integration](#integration)
+    - [Implementation](#implementation)
 - [Compile](#compile)
 - [Install](#install)
 - [Uninstall](#uninstall)
