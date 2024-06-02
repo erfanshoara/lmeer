@@ -2,6 +2,7 @@
  * Filename:	lmeer.h
  * Author:		Erfan Shoara (erfan@shoara.net)
  * Date:		Nov 10, 2023
+ * Header ID:	(LMEER)
  * Description:	.
  */
 
@@ -51,7 +52,6 @@
 #define __LMEER_TRC_END__		'E'
 #define __LMEER_TRC_EXT__		'X'
 // }
-
 // }
 
 
@@ -125,6 +125,12 @@ extern __thread lmeer_ecsp_t LMEER_ECSP_MAIN;
  */
 extern const char*	__LMEER_LST_INTR[];
 extern const size_t	__LMEER_LEN_INTR;
+// }
+
+
+// macros
+// {
+#define LMEER_RAISE__(A,B) lmeer_raise_erdc((A),(B)); return (A)
 // }
 
 

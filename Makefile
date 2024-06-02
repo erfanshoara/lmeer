@@ -119,11 +119,11 @@ $(DIR_OUT_LIB)/$(LIB_OUT_DYN): $(LST_OBJ_DYN) | $(DIR_OUT_LIB)
 	$(CC) $(FLG_LNK) -o $@ $^
 
 # compiling static objects
-$(LST_OBJ_STA): $(LST_SRC) | $(DIR_OUT_OBJ_STA)
+$(LST_OBJ_STA): $(DIR_OUT_OBJ_STA)/%.o: $(DIR_SRC)/%.c | $(DIR_OUT_OBJ_STA)
 	$(CC) $(FLG_CPL_STA) -o $@ $<
 
 # compiling dynamic objects
-$(LST_OBJ_DYN): $(LST_SRC) | $(DIR_OUT_OBJ_DYN)
+$(LST_OBJ_DYN): $(DIR_OUT_OBJ_DYN)/%.o: $(DIR_SRC)/%.c | $(DIR_OUT_OBJ_DYN)
 	$(CC) $(FLG_CPL_DYN) -o $@ $<
 
 $(DIR_OUT_LIB) $(DIR_OUT_OBJ_STA) $(DIR_OUT_OBJ_DYN):

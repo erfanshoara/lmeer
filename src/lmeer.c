@@ -393,7 +393,7 @@ alloc_lmeer_print_trace(
 		 * 	1 for the term null
 		 */
 		if (
-				_i_str			<
+				_i_str			<=
 				(
 					xlen_trace - (__LMEER_ECSTR_XLEN__ + 4)
 				)
